@@ -60,7 +60,7 @@ export default class Hand {
      * 最初に手札を配られた時に、BlackJackかどうかチェックする
      */
     checkBlackJack() {
-        if (this.hand[0].num >= 10 && this.hand[1].num == 1 || this.hand[0].num == 1 && this.hand[1].num >= 10) {
+        if (this.getSum() == 21) {
             return true;
         } else {
             return false;
