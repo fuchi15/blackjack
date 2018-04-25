@@ -1,62 +1,61 @@
 "use strict";
 import Deck from './modules/Deck.js';
-import Player from './modules/Player.js';
+import Hand from './modules/Hand.js';
 import View from './modules/View.js';
 
 let deck = new Deck();
-let player = new Player();
-let dealer = new Player();
+let player_hand = new Hand();
+let dealer_hand = new Hand();
 let view = new View();
 
-player.hitCard(deck.getCard());
-player.hitCard(deck.getCard());
-dealer.hitCard(deck.getCard());
-dealer.hitCard(deck.getCard());
+player_hand.addCard(deck.getCard());
+player_hand.addCard(deck.getCard());
+dealer_hand.addCard(deck.getCard());
+dealer_hand.addCard(deck.getCard());
 
-let dealer_hand = dealer.getHand();
-dealer_hand[1].changeDisable();
-let player_hand = player.getHand();
-
-if (player_hand[0].num >= 10 && player_hand[1].num == 1 || player_hand[0].num == 1 && player_hand[1].num >= 10) {
-    view.renderResult("Win");
+if (player_hand.checkBlackJack() && dealer_hand.checkBlackJack()) {
+    view.renderResult("ひきわけ");
+} else if (player_hand.checkBlackJack()) {
+    view.renderResult("かち");
+} else if (dealer_hand.checkBlackJack()) {
+    view.renderResult("まけ");
+} else {
+    dealer_hand.changeHide();
 }
 
-view.renderPlayerHand(player);
-view.renderDealerHand(dealer);
+view.renderPlayerHand(player_hand);
+view.renderDealerHand(dealer_hand);
 
 view.hit.addEventListener('click', () => {
-    player.hitCard(deck.getCard());
-    view.renderPlayerHand(player);
-    let sum = player.getSumHand();
+    player_hand.addCard(deck.getCard());
+    view.renderPlayerHand(player_hand);
+    let sum = player_hand.getSum();
     if (sum == 21) {
-        view.renderResult("Win");
+        view.renderResult("かち");
     } else if (sum > 21) {
-        view.renderResult("Lose");
+        view.renderResult("まけ");
     }
 });
 
 view.stand.addEventListener('click', () => {
-    dealer_hand = dealer.getHand();
-    dealer_hand[1].changeDisable();
-    let sum = dealer.getSumHand();
+    dealer_hand.changeHide();
+    let sum = dealer_hand.getSum();
     while (sum <= 17) {
         sum = 0;
-        dealer.hitCard(deck.getCard());
-        view.renderDealerHand(dealer);
-        sum = dealer.getSumHand();
+        dealer_hand.addCard(deck.getCard());
+        sum = dealer_hand.getSum();
     }
-
+    view.renderDealerHand(dealer_hand);
     if (sum > 21) {
-        view.renderResult("Win");
+        view.renderResult("かち");
         return;
     }
+    const player_difference = 21 - player_hand.getSum();
+    const dealer_difference = 21 - dealer_hand.getSum();
 
-    let player_sum = 21 - player.getSumHand();
-    let dealer_sum = 21 - dealer.getSumHand();
-
-    if (player_sum < dealer_sum) {
-        view.renderResult("win");
+    if (player_difference < dealer_difference) {
+        view.renderResult("かち");
     } else {
-        view.renderResult("lose");
+        view.renderResult("まけ");
     }
 });
