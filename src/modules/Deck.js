@@ -1,3 +1,5 @@
+import Card from './Card.js';
+
 export default class Deck {
     constructor() {
         this.deck = this.initDeck();
@@ -8,12 +10,10 @@ export default class Deck {
         let deck = [];
         suits.forEach((suit) => {
             for (let i = 1; i <= 13; i++) {
-                deck.push({
-                    'num': i,
-                    'suit': suit
-                });
+                deck.push(new Card(i, suit));
             }
         });
+
         return deck.sort(() => {
             return Math.random() - .5;
         });

@@ -5,12 +5,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="./bundle.js"></script>
     <title>Document</title>
 </head>
 
 <body>
+    <div>
+        <p>Dealer</p>
+        <div id="dealer_hand"></div>
+    </div>
+    <div>
+        <p>Player</p>
+        <div id="player_hand"></div>
+    </div>
+    <div class="btn-wrap">
+        <button id="hit">hit</button>
+        <button id="stand">stand</button>
+    </div>
 
+    <p id="result"></p>
+
+    <script src="./bundle.js"></script>
+    <style>
+        img {
+            width: 150px;
+            height: 225px;
+            margin: 0 15px;
+        }
+
+        .btn-wrap {
+            margin-top: 30px;
+        }
+
+        button {
+            width: 150px;
+            height: 30px;
+            border: 1px solid black;
+            border-radius: 3px;
+        }
+    </style>
 </body>
 
 </html>
